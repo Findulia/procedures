@@ -35,10 +35,43 @@ Supprime le contenu et ajoute :
 10.0.2.248    harpon.emilezola.local
 ```
 
-2. **Configuration du fichier /etc/hosts** :
+## **Etape 3 : Synchronisation de l'heure (critique pour Kerberos)**
 
+```bash
+sudo apt install ntp -y
+sudo timedatectl set-ntp true
+sudo timedatectl set-timezone Europe/Paris
+```
 
+Vérifie :
 
+```bash
+timedatectl status
+```
+
+## **Etape 4 : Configuration de Kerberos**
+### **Modifier le fichier /etc/krb5.conf**
+
+```bash
+sudo nano /etc/krb5.conf
+```
+Supprimer le contenu et ajouter :
+
+```ini
+[libdefaults]
+   default_realm = EMILEZOLA.LOCAL
+   dns_lookup_realm = true
+
+[realms]
+   EMILEZOLA.LOCAL = {
+      kdc = sang.emilezola.local
+      admin_server = sang.emilezola.local
+   }
+
+[domain_realm]
+   .emilezola.local = EMILEZOLA.LOCAL
+   emilezola.local = EMILEZOLA.LOCAL
+```
 
 
 
